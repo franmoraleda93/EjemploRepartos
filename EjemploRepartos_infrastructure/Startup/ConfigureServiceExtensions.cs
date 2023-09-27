@@ -17,9 +17,14 @@ namespace EjemploRepartos_infrastructure.Startup
         {
             services.AddScoped<IMasterService, MasterService>();
             services.AddScoped<IPedidoService, PedidoService>();
+            services.AddScoped<IAuthorizeService, AuthorizeService>();
+            services.AddScoped<IRepartoService, RepartoService>();
 
             services.AddScoped<IMasterRepository, MasterRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IHeaderRepository, HeaderRepository>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IRepartidorRepository, RepartidorRepository>();
         }
 
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

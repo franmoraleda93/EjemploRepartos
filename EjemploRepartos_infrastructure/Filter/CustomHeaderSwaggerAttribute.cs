@@ -17,7 +17,15 @@ namespace EjemploRepartos_infrastructure.Filter
                 In = ParameterLocation.Header,
                 Schema = new OpenApiSchema() { Type = "string" },
                 Required = false
-            });            
+            });
+
+            operation.Parameters.Add(new OpenApiParameter()
+            {
+                Name = "OidRepartidor",
+                In = ParameterLocation.Header,
+                Schema = new OpenApiSchema() { Type = "string" },
+                Required = false
+            });
         }
     }
 }

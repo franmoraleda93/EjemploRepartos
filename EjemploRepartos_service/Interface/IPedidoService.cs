@@ -5,5 +5,6 @@ namespace EjemploRepartos_service.Interface
     public interface IPedidoService
     {
         Task<int> CreatePedido(RequestNuevoPedido request);
+        Task<bool> DeletePedido(int idPedido);
     }
 }

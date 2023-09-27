@@ -1,4 +1,5 @@
-﻿using EjemploRepartos_service.Interface;
+﻿using EjemploRepartos_API.Authorization;
+using EjemploRepartos_service.Interface;
 using EjemploRepartos_service.Request.Pedido;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace EjemploRepartos_API.Controllers
             _pedidoService = pedidoService;
         }
 
+        [AuthorizeCliente]
         [HttpPost]
         [Route("NuevoPedido")]
         public async Task<IActionResult> CreatePedido([FromBody] RequestNuevoPedido request)
@@ -22,6 +24,12 @@ namespace EjemploRepartos_API.Controllers
             return Ok(await _pedidoService.CreatePedido(request));
         }
 
-        
+        [AuthorizeCliente]
+        [HttpDelete]        
+        public async Task<IActionResult> DeletePedido (int idPedido)
+        {
+            return Ok(await _pedidoService.DeletePedido(idPedido));
+        }
+
     }
 }

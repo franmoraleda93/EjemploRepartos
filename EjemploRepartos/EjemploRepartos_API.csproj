@@ -20,8 +20,4 @@
     <ProjectReference Include="..\EjemploRepartos_service\EjemploRepartos_service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Authorization\" />
-  </ItemGroup>
-
 </Project>
