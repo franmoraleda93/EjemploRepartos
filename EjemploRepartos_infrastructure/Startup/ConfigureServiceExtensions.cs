@@ -25,6 +25,7 @@ namespace EjemploRepartos_infrastructure.Startup
             services.AddScoped<IHeaderRepository, HeaderRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IRepartidorRepository, RepartidorRepository>();
+            services.AddScoped<IGeoLocationRepository, GeoLocationRepository>();
         }
 
         public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

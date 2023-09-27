@@ -10,14 +10,17 @@ namespace EjemploRepartos_service.Service
         private readonly IHeaderRepository _headerRepository;
         private readonly IRepartidorRepository _repartidorRepository;
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IGeoLocationRepository _geoLocationRepository;
 
         public RepartoService(IHeaderRepository headerRepository, 
                               IRepartidorRepository repartidorRepository, 
-                              IPedidoRepository pedidoRepository)
+                              IPedidoRepository pedidoRepository,
+                              IGeoLocationRepository geoLocationRepository)
         {
             _headerRepository = headerRepository;
             _repartidorRepository = repartidorRepository;
             _pedidoRepository = pedidoRepository;
+            _geoLocationRepository = geoLocationRepository;
         }
 
         public async Task<bool> AceptarReparto(int idPedido)
@@ -47,10 +50,12 @@ namespace EjemploRepartos_service.Service
                 FechaModificacion = DateTime.UtcNow                
             };
 
+            string ubicacion = _geoLocationRepository.GetRepartidorLocation();
+
             RepartoUbicacion ubicacionInicial = new RepartoUbicacion()
             {
                 IdReparto = repartoInsert.IdReparto,
-                Ubicacion = "(42.7896,8.2569)",
+                Ubicacion = ubicacion,
                 Ultima = true,
                 FechaCreacion = DateTime.UtcNow,
                 FechaModificacion = DateTime.UtcNow
@@ -91,7 +96,7 @@ namespace EjemploRepartos_service.Service
             pedidoBDD.Reparto.RepartoUbicacion.Where(w => w.Ultima == true).ToList().ForEach(r => r.Ultima = false);
             pedidoBDD.Reparto.RepartoUbicacion.Where(w => w.Ultima == true).ToList().ForEach(r => r.FechaModificacion = DateTime.UtcNow);
 
-            string nuevaUbicacion = "(1.1234,2.3456)";
+            string nuevaUbicacion = _geoLocationRepository.GetRepartidorLocation();
 
             RepartoUbicacion ubicacionActual = new RepartoUbicacion()
             {
