@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EjemploRepartos_helper\EjemploRepartos_helper.csproj" />
     <ProjectReference Include="..\EjemploRepartos_repository\EjemploRepartos_repository.csproj" />
   </ItemGroup>
 

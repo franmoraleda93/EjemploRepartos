@@ -1,4 +1,6 @@
 ﻿using EjemploRepartos_database.Entities;
+using EjemploRepartos_helper.Exception.Type;
+using EjemploRepartos_repository.Enum;
 using EjemploRepartos_repository.Interface;
 using EjemploRepartos_service.Interface;
 using EjemploRepartos_service.Request.Pedido;
@@ -28,7 +30,7 @@ namespace EjemploRepartos_service.Service
             Pedido pedidoInsert = new Pedido()
             {
                 IdCliente = cliente.IdCliente,
-                IdEstadoPedido = 1,
+                IdEstadoPedido = (int)EnumEstadosPedido.EstadosPedido.Realizado,
                 Destino = request.Destino,
                 Observaciones = request.Observaciones,
                 FechaCreacion = DateTime.UtcNow,
@@ -62,7 +64,7 @@ namespace EjemploRepartos_service.Service
             }
             else
             {
-                throw new Exception("Error al crear el pedido");
+                throw new ResourceConflictException("Error al crear el pedido");
             }
         }
 
@@ -72,7 +74,7 @@ namespace EjemploRepartos_service.Service
 
             if (pedidoBDD == null)
             {
-                throw new Exception("No existe el pedido o no tiene acceos");
+                throw new ResourceForbiddenException("No existe el pedido o no tiene acceos");
             }
 
             if(pedidoBDD.PedidoComida.Count() > 0) 
@@ -99,7 +101,7 @@ namespace EjemploRepartos_service.Service
             }
             else
             {
-                throw new Exception("Error al borrar los datos");
+                throw new ResourceConflictException("Error al borrar los datos");
             }
            
         }

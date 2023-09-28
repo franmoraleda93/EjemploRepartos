@@ -1,4 +1,6 @@
 ﻿using EjemploRepartos_database.Entities;
+using EjemploRepartos_helper.Exception.Type;
+using EjemploRepartos_repository.Enum;
 using EjemploRepartos_repository.Interface;
 using EjemploRepartos_service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -29,15 +31,15 @@ namespace EjemploRepartos_service.Service
 
             if(pedidoBDD == null)
             {
-                throw new Exception("No existe el pedido");
+                throw new ResourceNotFoundException("No existe el pedido");
             }
 
-            if(pedidoBDD.IdEstadoPedido != 1)
+            if(pedidoBDD.IdEstadoPedido != (int)EnumEstadosPedido.EstadosPedido.Realizado)
             {
-                throw new Exception("El pedido ya esta en reparto o entregado");
+                throw new ResourceBadRequestException("El pedido ya esta en reparto o entregado");
             }
 
-            pedidoBDD.IdEstadoPedido = 2;
+            pedidoBDD.IdEstadoPedido = (int)EnumEstadosPedido.EstadosPedido.EnReparto;
             pedidoBDD.FechaModificacion = DateTime.UtcNow;
 
             Repartidor? repartidor = await _repartidorRepository.GetRepartidorByOid(_headerRepository.GetOidRepartidor()).FirstOrDefaultAsync();
@@ -73,7 +75,7 @@ namespace EjemploRepartos_service.Service
             }
             else
             {
-                throw new Exception("Error al guardar los datos");
+                throw new ResourceConflictException("Error al guardar los datos");
             }
         }
 
@@ -83,12 +85,12 @@ namespace EjemploRepartos_service.Service
 
             if (pedidoBDD == null)
             {
-                throw new Exception("No existe el pedido o no tiene acceos");
+                throw new ResourceForbiddenException("No existe el pedido o no tiene acceso");
             }
 
-            if (pedidoBDD.IdEstadoPedido != 2 || pedidoBDD.Reparto == null)
+            if (pedidoBDD.IdEstadoPedido != (int)EnumEstadosPedido.EstadosPedido.EnReparto || pedidoBDD.Reparto == null)
             {
-                throw new Exception("El pedido no esta en reparto");
+                throw new ResourceBadRequestException("El pedido no esta en reparto");
             }
 
             pedidoBDD.FechaModificacion = DateTime.UtcNow;
@@ -117,7 +119,7 @@ namespace EjemploRepartos_service.Service
             }
             else
             {
-                throw new Exception("Error al guardar los datos");
+                throw new ResourceConflictException("Error al guardar los datos");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using EjemploRepartos_database.Entities;
+using EjemploRepartos_helper.Exception.Type;
 using EjemploRepartos_repository.Interface;
 using EjemploRepartos_service.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +26,14 @@ namespace EjemploRepartos_service.Service
             string? oidCliente = _headerRepository.GetOidCliente();
             if (string.IsNullOrEmpty(oidCliente))
             {
-                throw new Exception("Oid de cliente erroneo");
+                throw new ResourceForbiddenException("Oid de cliente erroneo");
             }
 
             Cliente? cliente = await _clienteRepository.GetClienteByOid(oidCliente).FirstOrDefaultAsync();
 
             if(cliente == null)
             {
-                throw new Exception("Oid de cliente no existe");
+                throw new ResourceForbiddenException("Oid de cliente no existe");
             }
         }
         public async Task ValidateRepartidorAsync() 
@@ -40,14 +41,14 @@ namespace EjemploRepartos_service.Service
             string? oidRepartidor = _headerRepository.GetOidRepartidor();
             if (string.IsNullOrEmpty(oidRepartidor))
             {
-                throw new Exception("Oid de reparidor erroneo");
+                throw new ResourceForbiddenException("Oid de reparidor erroneo");
             }
 
             Repartidor? repartidor = await _repartidorRepository.GetRepartidorByOid(oidRepartidor).FirstOrDefaultAsync();
 
             if (repartidor == null)
             {
-                throw new Exception("Oid de repartidor no existe");
+                throw new ResourceForbiddenException("Oid de repartidor no existe");
             }
         }
     }

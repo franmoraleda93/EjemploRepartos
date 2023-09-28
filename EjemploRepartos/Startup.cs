@@ -1,4 +1,5 @@
-﻿using EjemploRepartos_infrastructure.Startup;
+﻿using EjemploRepartos_infrastructure.Middleware;
+using EjemploRepartos_infrastructure.Startup;
 using EjemploRepartos_service.Dto.DtoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,7 +55,9 @@ namespace EjemploRepartos_API
 
             app.UseRouting();
 
-            app.UseAuthorization();        
+            app.UseAuthorization();
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseEndpoints(endpoints =>
             {
